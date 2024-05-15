@@ -1,4 +1,4 @@
-export default function Expand () {
+const Expand = () => {
     return (
         <div>
             <div>
@@ -7,4 +7,6 @@ export default function Expand () {
             <p>Filler Text Here</p>
         </div>
     )
-}
+};
+
+export default Expand;

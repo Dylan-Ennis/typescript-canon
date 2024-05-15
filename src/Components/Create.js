@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button'
 
 
-export default function Create () {
+const Create = () => {
     return (
         <div>
             <div>
@@ -13,3 +13,5 @@ export default function Create () {
         </div>
     )
 }
+
+export default Create;
