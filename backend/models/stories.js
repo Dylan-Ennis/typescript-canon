@@ -11,13 +11,20 @@ const storySchema = new mongoose.Schema({
         required: true
     },
     DateCreated: {
-        type: String,
-        required: false
+        type: Date,
+        required: false,
+        default: Date.now
     },
     StoryContent: {
         type: String,
         required: true
-    }
+    },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 })
 
 
