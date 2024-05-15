@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Stories = require("../models/stories");
 
-// router.use(express.json())
+
 
 // GET
 router.get('/', async (req, res) => {
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const story = await Stories.findById(id);
+        const story = await Stories.findById(id).populate('comments');
         if (!story) {
             return res.status(404).json({ message: 'Story not found' });
         }
@@ -32,8 +32,8 @@ router.get('/:id', async (req, res) => {
 // Create
 router.post("/", async (req, res) => {
     try {
-        const newStory = await Stories.create(req.body); // Create a new story
-        res.status(201).json(newStory); // Respond with the created story in JSON format
+        const newStory = await Stories.create(req.body); 
+        res.status(201).json(newStory); 
     } catch (error) {
         console.log("Error creating story:", error);
         res.status(500).json({ message: "Error creating story" });
