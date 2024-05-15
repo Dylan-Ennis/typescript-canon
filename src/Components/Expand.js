@@ -1,4 +1,4 @@
-export default function About () {
+export default function Expand () {
     return (
         <div>
             <div>
