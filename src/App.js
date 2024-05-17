@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 
 import './App.css';
-import Main from './frontend/main';
+import Main from './frontend/Main';
+// import Expand from './frontend/Expanded';
+// import TextInputForm from './frontend/Submit';
+// import View from './frontend/View';
 import Create from './Components/Create';
 import Expand from './Components/Expand';
 import View from './Components/View';
@@ -32,6 +35,12 @@ function App() {
         <Routes>
            {/* Routing for Main component */}
            <Route exact path="/" element={<Main />} />
+          {/* Routing for Create component */}
+          <Route path="/Create" element={<Create />} />
+          {/* Routing for Expand component */}
+          <Route path="/Expand" element={<Expand />} />
+          {/* Routing for View component */}
+          <Route path="/View" element={<View />} />
            </Routes>
            </Router>
     

@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => {
     console.log('MongoDB connected');
 }).catch(err => console.error('MongoDB connection error:', err));
- it
+ 
 // Routes
 app.use('/stories', storiesRouter);
 app.use('/stories', commentsRouter);
