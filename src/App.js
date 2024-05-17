@@ -1,7 +1,9 @@
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 
 import './App.css';
-
+import Main from './frontend/main';
 import Create from './Components/Create';
 import Expand from './Components/Expand';
 import View from './Components/View';
@@ -27,13 +29,15 @@ function App() {
           </ul>
         </div>
         </header>
+        <Routes>
+           {/* Routing for Main component */}
+           <Route exact path="/" element={<Main />} />
+           </Routes>
+           </Router>
+    
 
       <div className="App-header"/>
-
-
-
-      </Router>
-    </div>
+      </div>
   );
 }
 
