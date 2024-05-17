@@ -26,7 +26,7 @@ router.post('/:storyId/comments', async (req, res) => {
     const { content, author } = req.body; 
 
     try {
-        const story = await Stories.findById(storyId); // Find the story by storyId
+        const story = await Stories.findById(storyId); 
         if (!story) {
             return res.status(404).json({ message: 'Story not found' });
         }
@@ -44,8 +44,24 @@ router.post('/:storyId/comments', async (req, res) => {
     }
 });
 
+// Like a comment
+router.post('/:storyId/comments/:commentId/like', async (req, res) => {
+    const { commentId } = req.params;
+
+    try {
+        const comment = await Comment.findByIdAndUpdate(commentId, { $inc: { likes: 1 } }, { new: true });
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+        res.json({ message: 'Comment liked successfully', comment });
+    } catch (error) {
+        console.error('Error liking comment:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 // Delete a comment
-router.delete('/comments/:commentId', async (req, res) => {
+router.delete('/:storyId/comments/:commentId', async (req, res) => {
     const { commentId } = req.params;
 
     try {
@@ -54,7 +70,6 @@ router.delete('/comments/:commentId', async (req, res) => {
             return res.status(404).json({ message: 'Comment not found' });
         }
 
-        // Remove the comment ID reference from the associated story
         const story = await Stories.findByIdAndUpdate(
             deletedComment.story,
             { $pull: { comments: commentId } },
@@ -69,7 +84,7 @@ router.delete('/comments/:commentId', async (req, res) => {
 });
 
 // update comment
-router.put('/comments/:commentId', async (req, res) => {
+router.put('/:storyId/comments/:commentId', async (req, res) => {
     const { commentId } = req.params;
     const { content } = req.body;
 
