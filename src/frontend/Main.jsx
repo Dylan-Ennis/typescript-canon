@@ -1,6 +1,7 @@
 import React from 'react';
 import App from '../App';
 
+
 function Main({stories}) {
    // Check if stories is undefined or null
    if (!stories) {

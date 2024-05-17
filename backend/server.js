@@ -3,9 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const storiesRouter = require('./controllers/stories');
 const commentsRouter = require('./controllers/comments');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const main = require('./src/frontend/main');
+
+
 
 const app = express();
 
@@ -20,17 +19,12 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => {
     console.log('MongoDB connected');
 }).catch(err => console.error('MongoDB connection error:', err));
-
+ it
 // Routes
 app.use('/stories', storiesRouter);
 app.use('/stories', commentsRouter);
 
-app.get('/', (_req, res) => {
-    // Render the Main component to HTML
-    const html = ReactDOMServer.renderToString(React.createElement(Main));
 
-    res.send(html);
-});
 
 // Start server
 const PORT = process.env.PORT || 3001;
