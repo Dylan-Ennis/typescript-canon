@@ -17,3 +17,26 @@ button{
   background-color: black;
   color: goldenrod;
 }
+
+.site-name{
+  color: goldenrod;
+  background-color: black;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.navbar {
+  text-align: center;
+  justify-content: space-between;
+}
+
+.navbar ul {
+  list-style: none;
+ display: flex;
+ text-align: center;
+  gap: 1rem;
+}
+
+nav a {
+  text-align: center;
+}

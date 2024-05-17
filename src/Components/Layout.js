@@ -1,18 +1,19 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import '../index.css';
 
 const Layout = () => {
   return (
     <>
-      <nav>
+      <nav className="navbar">
         <ul>
           <li>
-            <Link to="/Create">Create</Link>
+            <a className="nav" href="/Create">Create</a>
           </li>
           <li>
-            <Link to="/Expand">Expand</Link>
+            <a className="nav" href="/Expand">Expand</a>
           </li>
           <li>
-            <Link to="/View">View</Link>
+            <a className="nav" href="/View">View</a>
           </li>
         </ul>
       </nav>
