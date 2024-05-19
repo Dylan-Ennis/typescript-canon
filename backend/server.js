@@ -3,7 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const storiesRouter = require('./controllers/stories');
 const commentsRouter = require('./controllers/comments');
-
+require('dotenv').config()
 
 
 const app = express();

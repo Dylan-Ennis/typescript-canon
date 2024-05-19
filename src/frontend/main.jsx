@@ -1,31 +1,38 @@
-import React from 'react';
-import App from '../app';
+import React, { useState, useEffect } from 'react';
 
 
-function Main({stories}) {
-   // Check if stories is undefined or null
-   if (!stories) {
-    return <div>Bro there isn't even a story to load up here yet, so this wont load properly till theres actually data to render.</div>;
-  }
-  return(
-  <App>
-    <div className='story' style= {{color:"black",backgroundColor:"#897e5d"}}>
-      <p>{stories.storycontent}</p>
+function Main() {
+  const [stories, setStories] = useState([]);
+
+  useEffect(() => {
+    // Fetch stories from the backend when the component mounts
+    fetch('http://localhost:3001/stories')
+      .then(response => response.json())
+      .then(data => setStories(data))
+      .catch(error => console.error('Error fetching stories:', error));
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+
+  return (
+    <div>
+      {stories.map(story => (
+        <div className='story' key={story._id} style={{ marginBottom: '20px', backgroundcolor:'#601910', padding: '20px' }}>
+          <div style={{ padding: '5px', marginBottom: '5px', paddingLeft:'25%',paddingRight:'25%', fontSize:'15.8px', position: 'relative' }}>
+            <p style={{ backgroundColor: '#897e5d', padding: '5px', borderRadius: '5px' }}>{story.StoryContent.substring(0, 1212)}...</p>
+            <nav style={{ position: 'absolute', top: 0, right: 'calc(-5% - 10px)', color: '#897e5d', backgroundColor: 'transparent', padding: '80px',fontSize:'10px' }}>
+              <h3> Info Log:</h3>
+              <ul style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
+                <li style={{ marginBottom: '5px', fontWeight: 'bold' }}>Original Title: {story.Title}</li>
+                <li style={{ marginBottom: '5px' }}>Original Author: {story.Author}</li>
+                <li style={{ marginBottom: '5px' }}>Word Count: 455</li>
+                <li style={{ marginBottom: '5px' }}>Canon Continuations: 0</li>
+                <li style={{ marginBottom: '5px' }}>Fanon Continuations: 0</li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      ))}
     </div>
-    <nav style={{color:"#897e5d",}}>Info Log:
-    <ul>
-            <li>Original Title: {stories.Title}</li>
-            <li>Original Author: {stories.Author}</li>
-            <li>Word Count: 500</li>
-            <li>Canon Continuations: 10</li>
-            <li>Fanon Continuations: 30</li>
-          </ul>
-    </nav>
-
-  
-  </App>
-
-  )
+  );
 }
 
 export default Main;
