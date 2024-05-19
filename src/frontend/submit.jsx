@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../App';
+import App from '../app';
 // import React, { useState } from 'react';
 
 const TextInputForm = ({ onSubmit }) => {

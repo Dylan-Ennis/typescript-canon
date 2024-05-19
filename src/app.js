@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 
 import './App.css';
-import Main from './frontend/Main';
+import Main from './frontend/main';
 // import Expand from './frontend/Expanded';
 // import TextInputForm from './frontend/Submit';
 // import View from './frontend/View';
