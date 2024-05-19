@@ -1,17 +1,32 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Expand = () => {
-    const [open, setOpen] = useState(false);
+    const [stories, setStories] = useState([]);
+    const [open, setOpen] = useState({});
 
-    const expand =() => {
-        setOpen(!open);
+    const expand = (index) => {
+        setOpen(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
     };
+
+    useEffect(() => {
+        // Fetch stories from the backend when the component mounts
+        fetch('https://canon-backend.onrender.com/stories')
+            .then(response => response.json())
+            .then(data => setStories(data))
+            .catch(error => console.error('Error fetching stories:', error));
+    }, []);
 
     return (
         <div>
-            <button onClick={expand}>Expand</button>
-            {open && <div>Expand Me</div>}
+            {stories.map((story, index) => (
+                <div key={index} >
+                    <button onClick={() => expand(index)}>Expand</button>
+                    {open[index] && <div style={{backgroundColor: '#897e5d', padding: '50px', borderRadius: '5px' }}>{story.StoryContent}</div>}
+                </div>
+            ))}
         </div>
     );
 };

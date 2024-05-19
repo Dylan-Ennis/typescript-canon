@@ -6,7 +6,7 @@ function Main() {
 
   useEffect(() => {
     // Fetch stories from the backend when the component mounts
-    fetch('http://localhost:3001/stories')
+    fetch('https://canon-backend.onrender.com/stories')
       .then(response => response.json())
       .then(data => setStories(data))
       .catch(error => console.error('Error fetching stories:', error));

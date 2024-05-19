@@ -61,9 +61,7 @@ function App() {
            
     
 
-      <div className="App-header"/>
-      
-      <div className="App-header"/>
+    
     {/* test */}
       <View />
       <Expand label="Expand"/>
