@@ -1,165 +1,86 @@
-import { useState, useRef, useEffect } from "react";
-import Action from "./Action";
-import { ReactComponent as DownArrow } from "../assets/down-arrow.svg";
-import { ReactComponent as UpArrow } from "../assets/up-arrow.svg";
+import { useState } from "react";
 
-const Comment = ({
-  handleInsertNode,
-  handleEditNode,
-  handleDeleteNode,
-  comment,
-}) => {
-  const [input, setInput] = useState("");
-  const [editMode, setEditMode] = useState(false);
-  const [showInput, setShowInput] = useState(false);
-  const [expand, setExpand] = useState(false);
-  const inputRef = useRef(null);
+export default function CreateCommentForm() {
+  const [comment, setComment] = useState("");
+  const [author, setAuthor] = useState("");
 
-  useEffect(() => {
-    inputRef?.current?.focus();
-  }, [editMode]);
 
-  const handleNewComment = () => {
-    setExpand(!expand);
-    setShowInput(true);
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
   };
 
-  const onAddComment = () => {
-    if (editMode) {
-      handleEditNode(comment.id, inputRef?.current?.innerText);
-    } else {
-      setExpand(true);
-      handleInsertNode(comment.id, input);
-      setShowInput(false);
-      setInput("");
+
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value);
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+    content: comment,
+    author,
+    storyID: "6649c146f67e417ecc2ef597"
+  
+  };
+
+
+    const URL = `https://canon-backend.onrender.com/stories/6649c146f67e417ecc2ef597/comments`
+    const config = {
+        method: `POST`,
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }
-
-    if (editMode) setEditMode(false);
+    
+    try {
+      const responseComment = await fetch(URL, config);
+      const commentResponse = await responseComment.json();
+      console.log(commentResponse);
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      
+    }
+    window.location.reload() //We put this in here so that comments actually generate and so that after submitting a comment on the app, it displays on the page. It does not work if preventdefault is missing for some reason. We aren't sure why this works though.
   };
 
-  const handleDelete = () => {
-    handleDeleteNode(comment.id);
-  };
 
   return (
-    <div>
-      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
-        {comment.id === 1 ? (
-          <>
+    <div className="flex py-10 justify-center">
+      <form onSubmit={handleSubmit} id="commentForm">
+          <div>
+            <label htmlFor="comment">Comment</label>
             <input
+              onChange={handleCommentChange}
+              required
               type="text"
-              className="inputContainer-input first-input"
-              autoFocus
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="type..."
-            />
-
-            <Action
-              className="reply comment"
-              type="COMMENT"
-              handleClick={onAddComment}
-            />
-          </>
-        ) : (
-          <>
-            <span
-              contentEditable={editMode}
-              suppressContentEditableWarning={editMode}
-              ref={inputRef}
-              style={{ wordWrap: "break-word" }}
-            >
-              {comment.name}
-            </span>
-
-            <div style={{ display: "flex", marginTop: "5px" }}>
-              {editMode ? (
-                <>
-                  <Action
-                    className="reply"
-                    type="SAVE"
-                    handleClick={onAddComment}
-                  />
-                  <Action
-                    className="reply"
-                    type="CANCEL"
-                    handleClick={() => {
-                      if (inputRef.current)
-                        inputRef.current.innerText = comment.name;
-                      setEditMode(false);
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <Action
-                    className="reply"
-                    type={
-                      <>
-                        {expand ? (
-                          <UpArrow width="10px" height="10px" />
-                        ) : (
-                          <DownArrow width="10px" height="10px" />
-                        )}{" "}
-                        REPLY
-                      </>
-                    }
-                    handleClick={handleNewComment}
-                  />
-                  <Action
-                    className="reply"
-                    type="EDIT"
-                    handleClick={() => {
-                      setEditMode(true);
-                    }}
-                  />
-                  <Action
-                    className="reply"
-                    type="DELETE"
-                    handleClick={handleDelete}
-                  />
-                </>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-
-      <div style={{ display: expand ? "block" : "none", paddingLeft: 25 }}>
-        {showInput && (
-          <div className="inputContainer">
-            <input
-              type="text"
-              className="inputContainer-input"
-              autoFocus
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <Action className="reply" type="REPLY" handleClick={onAddComment} />
-            <Action
-              className="reply"
-              type="CANCEL"
-              handleClick={() => {
-                setShowInput(false);
-                if (!comment?.items?.length) setExpand(false);
-              }}
+              id="comment"
+              name="comment"
+              value={comment}
+              placeholder="Comment"
             />
           </div>
-        )}
-
-        {comment?.items?.map((cmnt) => {
-          return (
-            <Comment
-              key={cmnt.id}
-              handleInsertNode={handleInsertNode}
-              handleEditNode={handleEditNode}
-              handleDeleteNode={handleDeleteNode}
-              comment={cmnt}
-            />
-          );
-        })}
-      </div>
+          <div>
+          <label htmlFor="author">Author</label>
+          <input
+            onChange={handleAuthorChange}
+            required
+            type="text"
+            id="author"
+            name="author"
+            value={author}
+            placeholder="Author"
+          />
+        </div>
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+            >
+              Create comment
+            </button>
+          </div>
+      </form>
     </div>
   );
-};
-
-export default Comment;
+}
